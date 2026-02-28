@@ -1026,3 +1026,258 @@ body::before {
   color: var(--red);
   font-weight: 600;
 }
+
+/* ============================================================
+   Admin Login
+   ============================================================ */
+.admin-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+.admin-login-card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 32px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+.admin-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-login-form label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.admin-login-form input {
+  padding: 12px 16px;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color var(--transition-fast);
+  outline: none;
+}
+
+.admin-login-form input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+}
+
+.admin-login-error {
+  color: var(--red);
+  font-size: 0.85rem;
+  background: rgba(255, 23, 68, 0.1);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 23, 68, 0.2);
+}
+
+.admin-login-form button {
+  margin-top: 8px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.admin-login-form button:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: scale(1.02);
+}
+
+.admin-login-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   WebSocket Status
+   ============================================================ */
+.admin-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ws-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  background: var(--bg-glass);
+  border: 1px solid var(--border-color);
+}
+
+.ws-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.ws-connected {
+  color: var(--green);
+  border-color: rgba(0, 200, 83, 0.3);
+}
+
+.ws-connected .ws-dot {
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+}
+
+.ws-disconnected,
+.ws-error {
+  color: var(--red);
+  border-color: rgba(255, 23, 68, 0.3);
+}
+
+.ws-disconnected .ws-dot,
+.ws-error .ws-dot {
+  background: var(--red);
+  box-shadow: 0 0 8px var(--red);
+}
+
+.admin-logout-btn {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.admin-logout-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+/* ============================================================
+   Safety Features & Controls
+   ============================================================ */
+.safety-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  justify-content: space-between;
+}
+
+.safety-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.btn-panic {
+  background: rgba(255, 23, 68, 0.15);
+  color: var(--red);
+  border: 1px solid rgba(255, 23, 68, 0.3);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-panic:hover {
+  background: var(--red);
+  color: #fff;
+}
+
+/* ============================================================
+   Discreet Mode Overrides
+   ============================================================ */
+.discreet-mode {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --text-primary: #334155;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --border-color: #e2e8f0;
+  --accent: #cbd5e1;
+}
+
+.discreet-mode body::before {
+  display: none;
+}
+
+.discreet-mode .logo h1,
+.discreet-mode .header-tag,
+.discreet-mode .risk-meter,
+.discreet-mode .metrics-panel-wrapper {
+  display: none !important;
+}
+
+.discreet-mode .app-header {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.discreet-mode .message-bubble {
+  border-radius: 4px;
+}
+
+.discreet-mode .message-user .message-bubble {
+  background: #e2e8f0;
+  color: #334155;
+}
+
+.discreet-mode .message-system .message-bubble {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+}
+
+.discreet-mode .send-btn {
+  background: #cbd5e1;
+  color: #475569;
+}

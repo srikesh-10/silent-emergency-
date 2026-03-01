@@ -36,11 +36,19 @@ function App() {
                 {/* Activity Bar (Leftmost) - Only in Camouflage */}
                 {isCamouflage && (
                     <aside className="activity-bar">
-                        <div className="activity-icon active">📄</div>
-                        <div className="activity-icon">🔍</div>
-                        <div className="activity-icon">🌿</div>
-                        <div className="activity-icon">🐞</div>
-                        <div className="activity-icon">🧩</div>
+                        <div className="activity-icon active" title="Explorer">📄</div>
+                        <div className="activity-icon" title="Search">🔍</div>
+                        <div className="activity-icon" title="Source Control">🌿</div>
+                        <div className="activity-icon" title="Run and Debug">🐞</div>
+                        <div className="activity-icon" title="Extensions">🧩</div>
+                        <div
+                            className="activity-icon"
+                            style={{ marginTop: 'auto', marginBottom: '15px' }}
+                            onClick={() => setIsCamouflage(false)}
+                            title="Exit Stealth Mode"
+                        >
+                            ⚙️
+                        </div>
                     </aside>
                 )}
 

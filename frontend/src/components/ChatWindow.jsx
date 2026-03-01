@@ -13,7 +13,7 @@ import MetricsPanel from './MetricsPanel';
 // Backend endpoint for behavioral analysis
 const API_URL = 'http://localhost:8000/analyze';
 
-function ChatWindow({ isCamouflage }) {
+function ChatWindow({ isDiscreet, onToggleDiscreet }) {
     // Unique session ID for tracking in backend
     const [sessionId] = useState(() => crypto.randomUUID());
 
@@ -47,7 +47,6 @@ function ChatWindow({ isCamouflage }) {
     // History to build a typing baseline for the user
     const [metricHistory, setMetricHistory] = useState([]);
 
-    const [isDiscreet, setIsDiscreet] = useState(false);
 
     // Quick Exit: Listen for Escape key
     useEffect(() => {
@@ -75,14 +74,15 @@ function ChatWindow({ isCamouflage }) {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, []);
 
-    // Toggle discreet mode class on body
+    // Change browser tab title based on mode
     useEffect(() => {
+        const originalTitle = document.title;
         if (isDiscreet) {
-            document.body.classList.add('discreet-mode');
+            document.title = "Aegis AI - Dashboard";
         } else {
-            document.body.classList.remove('discreet-mode');
+            document.title = originalTitle;
         }
-        return () => document.body.classList.remove('discreet-mode');
+        return () => { document.title = originalTitle; };
     }, [isDiscreet]);
 
     const handleClearChat = () => {
@@ -228,7 +228,7 @@ function ChatWindow({ isCamouflage }) {
                 <div className="safety-btn-group">
                     <button
                         className="btn-secondary"
-                        onClick={() => setIsDiscreet(!isDiscreet)}
+                        onClick={onToggleDiscreet}
                     >
                         {isDiscreet ? '👁️ Standard Mode' : '🕶️ Discreet Mode'}
                     </button>
@@ -247,17 +247,16 @@ function ChatWindow({ isCamouflage }) {
             )}
 
             {/* Message display area */}
-            <MessageList messages={messages} isLoading={isLoading} isCamouflage={isCamouflage} />
+            <MessageList messages={messages} isLoading={isLoading} />
 
             {/* Typing metrics debug panel (Hidden in Discreet Mode) */}
-            {!isDiscreet && !isCamouflage && <MetricsPanel metrics={liveMetrics} />}
+            {!isDiscreet && <MetricsPanel metrics={liveMetrics} />}
 
             {/* Text input with typing-behavior tracking */}
             <MessageInput
                 onSend={handleSend}
                 onMetricsChange={setLiveMetrics}
                 isLoading={isLoading}
-                isCamouflage={isCamouflage}
             />
 
             {/* Discreet safety popup */}

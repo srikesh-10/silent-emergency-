@@ -18,7 +18,7 @@ function DiscreetModeToggle({ isDiscreet, onToggle }) {
             }}
         >
             <span className="metrics-toggle-icon" style={{ fontSize: '0.85rem' }}>
-                {isDiscreet ? '⚙️' : '🕶️'}
+                {isDiscreet ? '💬' : '🔢'}
             </span>
             {isDiscreet ? 'Exit Camouflage' : 'Stealth View'}
         </button>

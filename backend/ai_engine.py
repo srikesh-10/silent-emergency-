@@ -21,6 +21,15 @@ distress_keywords = [
     "dont know"
 ]
 
+critical_keywords = [
+    "i am in immediate danger",
+    "critical emergency",
+    "911",
+    "call the police",
+    "he is attacking me",
+    "hurry"
+]
+
 
 def keyword_score(text):
     score = 0
@@ -97,6 +106,12 @@ def calculate_risk(message, typing_speed, backspaces, pause_time, baseline_speed
         b_score * 0.3 +
         k_score * 0.2
     )
+
+    # Critical Override
+    for crit in critical_keywords:
+        if crit in message.lower():
+            risk = 100
+            break
 
     level = "LOW"
     popup = False

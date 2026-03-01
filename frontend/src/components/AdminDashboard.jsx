@@ -11,6 +11,62 @@ import Login from './Login';
 
 const ALERTS_URL = 'http://localhost:8000/admin/logs';
 
+/**
+ * StatusDropdown — A futuristic custom dropdown for session states.
+ */
+function StatusDropdown({ status, onSelect }) {
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef(null);
+
+    const options = [
+        { value: 'ACTIVE', color: '#00c853' },
+        { value: 'ACKNOWLEDGED', color: '#ffd600' },
+        { value: 'RESOLVED', color: '#ff1744' }
+    ];
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const currentOption = options.find(o => o.value === status) || options[0];
+
+    return (
+        <div className={`status-dropdown ${isOpen ? 'open' : ''}`} ref={dropdownRef}>
+            <div className="status-dropdown-header" onClick={() => setIsOpen(!isOpen)}>
+                <span style={{ display: 'flex', alignItems: 'center' }}>
+                    <span className="status-dot" style={{ backgroundColor: currentOption.color }}></span>
+                    {status}
+                </span>
+                <span className="status-arrow">▼</span>
+            </div>
+
+            {isOpen && (
+                <div className="status-options-menu">
+                    {options.map((opt) => (
+                        <div
+                            key={opt.value}
+                            className={`status-option ${status === opt.value ? 'active' : ''}`}
+                            onClick={() => {
+                                onSelect(opt.value);
+                                setIsOpen(false);
+                            }}
+                        >
+                            <span className="status-dot" style={{ backgroundColor: opt.color }}></span>
+                            {opt.value}
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
+
 function AdminDashboard() {
     const [token, setToken] = useState(() => localStorage.getItem('admin_token'));
     const [alerts, setAlerts] = useState([]);
@@ -247,15 +303,10 @@ function AdminDashboard() {
                                                 </span>
                                             </td>
                                             <td>
-                                                <select
-                                                    value={alert.session_status || 'ACTIVE'}
-                                                    onChange={(e) => handleStatusChange(alert.session_id, e.target.value)}
-                                                    style={{ background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', padding: '4px', borderRadius: '4px' }}
-                                                >
-                                                    <option value="ACTIVE">ACTIVE</option>
-                                                    <option value="ACKNOWLEDGED">ACKNOWLEDGED</option>
-                                                    <option value="RESOLVED">RESOLVED</option>
-                                                </select>
+                                                <StatusDropdown
+                                                    status={alert.session_status || 'ACTIVE'}
+                                                    onSelect={(newStatus) => handleStatusChange(alert.session_id, newStatus)}
+                                                />
                                             </td>
                                             <td>
                                                 <div style={{ display: 'flex', gap: '8px' }}>

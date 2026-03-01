@@ -7,7 +7,7 @@ import React, { useEffect, useRef } from 'react';
  *   messages: Array<{ text: string, sender: 'user' | 'system' }>
  *   isLoading: boolean — shows a typing indicator when true
  */
-function MessageList({ messages, isLoading }) {
+function MessageList({ messages, isLoading, isCamouflage }) {
     const bottomRef = useRef(null);
 
     // Auto-scroll to the latest message whenever the list updates
@@ -17,22 +17,27 @@ function MessageList({ messages, isLoading }) {
 
     return (
         <div className="message-list" role="log" aria-live="polite">
-            {messages.map((msg, index) => (
-                <div
-                    key={index}
-                    className={`message ${msg.sender === 'user' ? 'message-user' : 'message-system'}`}
-                >
-                    {/* Avatar icon */}
-                    <div className="message-avatar">
-                        {msg.sender === 'user' ? '🧑' : '🤖'}
-                    </div>
+            {messages.map((msg, index) => {
+                const isGrouped = index > 0 && messages[index - 1].sender === msg.sender;
+                return (
+                    <div
+                        key={index}
+                        className={`message ${msg.sender === 'user' ? 'message-user' : 'message-system'} ${isGrouped ? 'message-grouped' : ''}`}
+                    >
+                        {/* Avatar icon */}
+                        {!isCamouflage && (
+                            <div className="message-avatar">
+                                {msg.sender === 'user' ? '🧑' : '🤖'}
+                            </div>
+                        )}
 
-                    {/* Bubble */}
-                    <div className="message-bubble">
-                        <p>{msg.text}</p>
+                        {/* Bubble */}
+                        <div className="message-bubble">
+                            <p>{msg.text}</p>
+                        </div>
                     </div>
-                </div>
-            ))}
+                );
+            })}
 
             {/* Typing indicator while waiting for API response */}
             {isLoading && (

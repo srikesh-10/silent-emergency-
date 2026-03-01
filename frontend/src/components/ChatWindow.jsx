@@ -13,7 +13,7 @@ import MetricsPanel from './MetricsPanel';
 // Backend endpoint for behavioral analysis
 const API_URL = 'http://localhost:8000/analyze';
 
-function ChatWindow() {
+function ChatWindow({ isCamouflage }) {
     // Unique session ID for tracking in backend
     const [sessionId] = useState(() => crypto.randomUUID());
 
@@ -247,16 +247,17 @@ function ChatWindow() {
             )}
 
             {/* Message display area */}
-            <MessageList messages={messages} isLoading={isLoading} />
+            <MessageList messages={messages} isLoading={isLoading} isCamouflage={isCamouflage} />
 
             {/* Typing metrics debug panel (Hidden in Discreet Mode) */}
-            {!isDiscreet && <MetricsPanel metrics={liveMetrics} />}
+            {!isDiscreet && !isCamouflage && <MetricsPanel metrics={liveMetrics} />}
 
             {/* Text input with typing-behavior tracking */}
             <MessageInput
                 onSend={handleSend}
                 onMetricsChange={setLiveMetrics}
                 isLoading={isLoading}
+                isCamouflage={isCamouflage}
             />
 
             {/* Discreet safety popup */}

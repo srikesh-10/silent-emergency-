@@ -32,31 +32,33 @@ function getLevelClass(level) {
 
 function RiskMeter({ score = 0, level = 'LOW' }) {
     const barColor = getBarColor(score);
+    // Check if we are in camouflage mode by checking the parent class
+    const isCamouflage = document.querySelector('.app')?.classList.contains('is-camouflage');
 
     return (
-        <div className="risk-meter" role="meter" aria-valuenow={score} aria-valuemin={0} aria-valuemax={100}>
+        <div className={`risk-meter ${level === 'HIGH' ? 'risk-pulse-active' : ''}`} role="meter" aria-valuenow={score} aria-valuemin={0} aria-valuemax={100}>
             {/* Header row */}
             <div className="risk-meter-header">
-                <span className="risk-label">Risk Assessment</span>
+                <span className="risk-label">{isCamouflage ? 'System Performance' : 'Aegis Intelligence'}</span>
                 <span className={`risk-level-badge ${getLevelClass(level)}`}>
-                    {level}
+                    {isCamouflage ? (level === 'LOW' ? 'OPTIMAL' : level === 'MEDIUM' ? 'STRESSED' : 'CRITICAL') : level}
                 </span>
             </div>
 
             {/* Bar track */}
             <div className="risk-bar-track">
                 <div
-                    className="risk-bar-fill"
+                    className={`risk-bar-fill ${isCamouflage ? 'camo-bar' : ''}`}
                     style={{
                         width: `${Math.min(Math.max(score, 0), 100)}%`,
-                        backgroundColor: barColor,
+                        backgroundColor: isCamouflage ? '#007acc' : barColor,
                     }}
                 />
             </div>
 
             {/* Score text */}
             <div className="risk-score-text">
-                Score: <strong>{score}</strong> / 100
+                {isCamouflage ? 'Load Factor:' : 'Confidence:'} <strong>{score}%</strong>
             </div>
         </div>
     );

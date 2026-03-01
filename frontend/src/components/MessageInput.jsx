@@ -17,7 +17,7 @@ import React, { useState, useRef, useCallback } from 'react';
 // Pause threshold in milliseconds — gaps larger than this count as a "pause"
 const PAUSE_THRESHOLD_MS = 1000;
 
-function MessageInput({ onSend, onMetricsChange, isLoading }) {
+function MessageInput({ onSend, onMetricsChange, isLoading, isCamouflage }) {
     const [text, setText] = useState('');
 
     // Refs survive re-renders without triggering them — ideal for metric counters
@@ -124,34 +124,38 @@ function MessageInput({ onSend, onMetricsChange, isLoading }) {
 
     return (
         <form className="message-input" onSubmit={(e) => e.preventDefault()}>
-            <textarea
-                id="chat-input"
-                className="input-field"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder={isLoading ? 'Analyzing...' : 'Type your message...'}
-                disabled={isLoading}
-                rows={1}
-                aria-label="Message input"
-            />
-            <button
-                type="button"
-                className="send-btn"
-                onClick={handleSubmit}
-                disabled={isLoading || !text.trim()}
-                aria-label="Send message"
-            >
-                {isLoading ? (
-                    <span className="send-spinner" />
-                ) : (
-                    /* Paper-plane icon via SVG */
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="22" y1="2" x2="11" y2="13" />
-                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                    </svg>
-                )}
-            </button>
+            <div className="input-wrapper">
+                <textarea
+                    id="chat-input"
+                    className="input-field"
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder={isLoading ? 'Analyzing...' : (isCamouflage ? '' : 'Type your message...')}
+                    disabled={isLoading}
+                    rows={1}
+                    aria-label="Message input"
+                />
+            </div>
+            {!isCamouflage && (
+                <button
+                    type="button"
+                    className="send-btn"
+                    onClick={handleSubmit}
+                    disabled={isLoading || !text.trim()}
+                    aria-label="Send message"
+                >
+                    {isLoading ? (
+                        <span className="send-spinner" />
+                    ) : (
+                        /* Paper-plane icon via SVG */
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13" />
+                            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                        </svg>
+                    )}
+                </button>
+            )}
         </form>
     );
 }

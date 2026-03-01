@@ -117,9 +117,20 @@ def calculate_risk(message, typing_speed, backspaces, pause_time, baseline_speed
     popup = False
 
     # Lowered threshold slightly for demo smoothness
+
     if risk > 60:
+       level = "HIGH"
+       popup = True
+
+# Emotional distress trigger (stricter)
+    elif (
+       e_score > 85
+       and emotion_label in ["fear", "sadness"]
+        and k_score > 20   # must also contain distress keywords
+    ):
         level = "HIGH"
         popup = True
+
     elif risk > 40:
         level = "MEDIUM"
 

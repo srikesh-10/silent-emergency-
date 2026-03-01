@@ -49,7 +49,7 @@ manager = ConnectionManager()
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # allow everything for now
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
